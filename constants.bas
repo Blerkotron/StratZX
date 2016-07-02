@@ -1,5 +1,9 @@
 'constants
 
+'general constants
+const TRUE as ubyte = 1
+const FALSE as ubyte = 0
+
 'level constants
 const MAPHEIGHT as ubyte = 12
 const MAPWIDTH as ubyte = 16
@@ -18,6 +22,7 @@ const MAXUNITS as ubyte = 10
 const MAXUNITSARRAY as ubyte = (MAXBASES + MAXUNITS) * 2
 const MAXSTARTUNITS as ubyte = 3
 
+const GOODOFFSET as ubyte = 0
 const BADOFFSET as ubyte = MAXUNITS + MAXBASES
 
 const UNITEMPTY as ubyte = 0

@@ -6,7 +6,7 @@ dim unitMap(MAPHEIGHT, MAPWIDTH) as ubyte
 
 'declarations
 declare sub drawTile(y as ubyte, x as ubyte)
-declare sub drawUnit(y as ubyte, x as ubyte)
+declare sub drawUnit(y as ubyte, x as ubyte, selected as ubyte)
 
 'reset level
 sub resetGame()
@@ -128,30 +128,30 @@ sub drawAllUnits()
 	
 	for y = 0 to MAPHEIGHT - 1
 		for x = 0 to MAPWIDTH - 1
-			drawUnit(y, x)
+			drawUnit(y, x, FALSE)
 		next x
 	next y
 end sub
 
 'draw a single unit to the screen
-sub drawUnit(y as ubyte, x as ubyte)
+sub drawUnit(y as ubyte, x as ubyte, selected as ubyte)
 	if unitMap(y, x) = UNITPLANEGOOD then
-		print at y * 2, x * 2; paper 6; ink 1; bright 1; "PL"; at (y * 2) + 1, x * 2; "AN"
+		print at y * 2, x * 2; paper 6; ink 1; bright 1; flash selected; "PL"; at (y * 2) + 1, x * 2; "AN"
 	elseif unitMap(y, x) = UNITTANKGOOD then
-		print at y * 2, x * 2; paper 6; ink 1; bright 1; "TA"; at (y * 2) + 1, x * 2; "NK"
+		print at y * 2, x * 2; paper 6; ink 1; bright 1; flash selected;"TA"; at (y * 2) + 1, x * 2; "NK"
 	elseif unitMap(y, x) = UNITINFANTRYGOOD then
-		print at y * 2, x * 2; paper 6; ink 1; bright 1; "IN"; at (y * 2) + 1, x * 2; "FA"
+		print at y * 2, x * 2; paper 6; ink 1; bright 1; flash selected;"IN"; at (y * 2) + 1, x * 2; "FA"
 	elseif unitMap(y, x) = UNITPLANEBAD then
-		print at y * 2, x * 2; paper 0; ink 2; bright 1; "PL"; at (y * 2) + 1, x * 2; "AN"
+		print at y * 2, x * 2; paper 0; ink 2; bright 1; flash selected;"PL"; at (y * 2) + 1, x * 2; "AN"
 	elseif unitMap(y, x) = UNITTANKBAD then
-		print at y * 2, x * 2; paper 0; ink 2; bright 1; "TA"; at (y * 2) + 1, x * 2; "NK"
+		print at y * 2, x * 2; paper 0; ink 2; bright 1; flash selected;"TA"; at (y * 2) + 1, x * 2; "NK"
 	elseif unitMap(y, x) = UNITINFANTRYBAD then
-		print at y * 2, x * 2; paper 0; ink 2; bright 1; "IN"; at (y * 2) + 1, x * 2; "FA"
+		print at y * 2, x * 2; paper 0; ink 2; bright 1; flash selected;"IN"; at (y * 2) + 1, x * 2; "FA"
 	elseif unitMap(y, x) = UNITBASE then
-		print at y * 2, x * 2; paper 7; ink 0; bright 0; "BA"; at (y * 2) + 1, x * 2; "SE"
+		print at y * 2, x * 2; paper 7; ink 0; bright 0; flash selected;"BA"; at (y * 2) + 1, x * 2; "SE"
 	elseif unitMap(y, x) = UNITBASEGOOD then
-		print at y * 2, x * 2; paper 6; ink 1; bright 1; "BA"; at (y * 2) + 1, x * 2; "SE"
+		print at y * 2, x * 2; paper 6; ink 1; bright 1; flash selected;"BA"; at (y * 2) + 1, x * 2; "SE"
 	elseif unitMap(y, x) = UNITBASEGOOD then
-		print at y * 2, x * 2; paper 0; ink 2; bright 1; "BA"; at (y * 2) + 1, x * 2; "SE"
+		print at y * 2, x * 2; paper 0; ink 2; bright 1; flash selected;"BA"; at (y * 2) + 1, x * 2; "SE"
 	end if
 end sub

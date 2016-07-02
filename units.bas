@@ -35,3 +35,79 @@ sub createUnit(unitNum as ubyte, utype as ubyte, y as ubyte, x as ubyte)
 	end if
 	
 end sub
+
+'checks the team array to see if a team has been completely
+'wiped out or not
+function isTeamDead(offset as ubyte) as ubyte
+	dim n, c as ubyte
+
+	'we're going to count the number of units still active
+	c = 0
+	
+	'loop through the team's 'space' in the arrays
+	for n = offset to (offset + MAXUNITS) - 1
+		if unitHP(n) > 0 and unitHP(n) <> DISABLED then
+			c = c + 1
+		end if
+	next n
+	
+	'return TRUE if we still have units, FALSE otherwise
+	if c > 0 then 
+		return TRUE
+	else
+		return FALSE
+	end if
+	
+end function
+
+'checks the game state to see if one team or another has won
+function getWinner() as ubyte
+	
+	'check for a goodie win
+	if isTeamDead(BADOFFSET) then
+		return GOODOFFSET
+	elseif isTeamDead(GOODOFFSET) then
+		return BADOFFSET
+	else
+		return DISABLED
+	end if
+	
+end function
+
+'given a team offset returns the first unit that should be dealt with
+function getFirstUnit(offset as ubyte) as ubyte
+	dim n as ubyte
+	
+	'loop to find the first active unit
+	for n = offset to (offset + MAXUNITS) - 1
+		if unitHP(n) > 0 and unitHP(n) <> DISABLED then
+			return n
+		end if
+	next n
+
+	'no units active
+	return DISABLED
+	
+end function
+
+'given a team offset and a 'last unit' number, returns the next unit
+'that should be dealt with
+function getNextUnit(offset as ubyte, lastUnit as ubyte) as ubyte
+	dim n as ubyte
+	
+	'check to see if this was the last possible unit first
+	if lastUnit = (offset + MAXUNITS) - 1 then
+		return DISABLED
+	end if
+	
+	'loop to find the first active unit
+	for n = (lastUnit + 1) to (offset + MAXUNITS) - 1
+		if unitHP(n) > 0 and unitHP(n) <> DISABLED then
+			return n
+		end if
+	next n
+
+	'no more units active
+	return DISABLED
+
+end function
