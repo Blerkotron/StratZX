@@ -2,11 +2,19 @@
 
 'level data
 dim levelMap(MAPHEIGHT, MAPWIDTH) as ubyte
-dim unitMap(MAPHEIGHT, MAPWIDTH) as ubyte
+dim spriteMap(MAPHEIGHT, MAPWIDTH) as ubyte
 
 'declarations
 declare sub drawTile(y as ubyte, x as ubyte)
 declare sub drawUnit(unit as ubyte, selected as ubyte)
+declare sub drawBase(base as ubyte, selected as ubyte)
+
+'generate a whole new level
+sub generateGame()
+	resetGame()
+	generateMap()
+	generateUnitsAndBases()
+end sub
 
 'reset level
 sub resetGame()
@@ -16,7 +24,7 @@ sub resetGame()
 	for y = 0 to MAPHEIGHT - 1
 		for x = 0 to MAPWIDTH - 1
 			levelMap(y, x) = MAPEMPTY
-			unitMap(y, x) = UNITEMPTY
+			spriteMap(y, x) = SPRITEEMPTY
 		next x
 	next y
 	
@@ -46,8 +54,8 @@ sub generateMap()
 	
 end sub
 
-'generate an initial set of random units
-sub generateUnits()
+'generate an initial set of random bases and units
+sub generateUnitsAndBases()
 	dim x, y, u, n as ubyte
 	
 	'seed random bases
@@ -55,8 +63,12 @@ sub generateUnits()
 		do
 			x = int(rnd * MAPWIDTH)
 			y = int(rnd * MAPHEIGHT)
-		loop until unitMap(y, x) = UNITEMPTY
-		unitMap(y, x) = UNITBASE
+		loop until spriteMap(y, x) = SPRITEEMPTY
+		
+		'make a base and put it on the map
+		createBase(n, y, x)
+		spriteMap(y, x) = BASENEUTRAL
+		
 	next n
 	
 	'seed random goodies
@@ -65,11 +77,11 @@ sub generateUnits()
 		do
 			x = int(rnd * MAPWIDTH)
 			y = int(rnd * MAPHEIGHT)
-		loop until unitMap(y, x) = UNITEMPTY
+		loop until spriteMap(y, x) = SPRITEEMPTY
 		
 		'make a unit and put it on the map
 		createUnit(n, u, y, x)
-		unitMap(y, x) = u
+		spriteMap(y, x) = u
 		
 		u = u + 1
 		if u > UNITINFANTRYGOOD then
@@ -83,11 +95,11 @@ sub generateUnits()
 		do
 			x = int(rnd * MAPWIDTH)
 			y = int(rnd * MAPHEIGHT)
-		loop until unitMap(y, x) = UNITEMPTY
+		loop until spriteMap(y, x) = SPRITEEMPTY
 		
 		'make a unit and put it on the map
 		createUnit(n + BADOFFSET, u, y, x)
-		unitMap(y, x) = u
+		spriteMap(y, x) = u
 		
 		u = u + 1
 		if u > UNITINFANTRYBAD then
@@ -95,6 +107,13 @@ sub generateUnits()
 		end if
 	next n
 	
+end sub
+
+'draw the entire level - map, units, bases
+sub drawLevel()
+	drawFullMap()
+	drawAllUnits()
+	drawAllBases()
 end sub
 
 'draw whole map to screen
@@ -150,11 +169,28 @@ sub drawUnit(unit as ubyte, selected as ubyte)
 		print at y, x; paper 0; ink 2; bright 1; flash selected;"TA"; at y + 1, x; "NK"
 	elseif unitType(unit) = UNITINFANTRYBAD then
 		print at y, x; paper 0; ink 2; bright 1; flash selected;"IN"; at y + 1, x; "FA"
-	elseif unitType(unit) = UNITBASE then
+	end if
+end sub
+
+'draw all bases
+sub drawAllBases()
+	dim n as ubyte
+	for n = 0 to MAXBASES - 1
+		drawBase(n, FALSE)
+	next n
+end sub
+
+'draw a single base to the screen
+sub drawBase(base as ubyte, selected as ubyte)
+	dim y, x as ubyte
+	y = baseY(base) * 2
+	x = baseX(base) * 2
+	
+	if baseAlignment(base) = BASENEUTRAL then
 		print at y, x; paper 7; ink 0; bright 0; flash selected;"BA"; at y + 1, x; "SE"
-	elseif unitType(unit) = UNITBASEGOOD then
+	elseif baseAlignment(base) = BASEGOOD then
 		print at y, x; paper 6; ink 1; bright 1; flash selected;"BA"; at y + 1, x; "SE"
-	elseif unitType(unit) = UNITBASEGOOD then
+	elseif baseAlignment(base) = BASEBAD then
 		print at y, x; paper 0; ink 2; bright 1; flash selected;"BA"; at y + 1, x; "SE"
 	end if
 end sub

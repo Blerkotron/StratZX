@@ -6,8 +6,10 @@ start()
 'includes
 #include "constants.bas"
 #include "utilities.bas"
+#include "base.bas"
 #include "units.bas"
 #include "level.bas"
+#include "team.bas"
 #include "ai.bas"
 #include "battle.bas"
 
@@ -68,14 +70,11 @@ sub playGame(twoPlayer as ubyte)
 	'clear the screen
 	cls
 		
-	'initialise game
-	resetGame()
-	generateMap()
-	generateUnits()
+	'generate a new game
+	generateGame()
 	
-	'draw map
-	drawFullMap()
-	drawAllUnits()
+	'draw full level (map, units, bases)
+	drawLevel()
 	
 	'main game loop
 	do

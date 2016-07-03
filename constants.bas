@@ -17,6 +17,8 @@ const MAPWATER as ubyte = 2
 const MAPMOUNTAIN as ubyte = 3
 const MAXTERRAIN as ubyte = MAPMOUNTAIN
 
+const SPRITEEMPTY as ubyte = 0
+
 'unit constants
 const MAXUNITS as ubyte = 10
 const MAXUNITSARRAY as ubyte = (MAXBASES + MAXUNITS) * 2
@@ -25,16 +27,12 @@ const MAXSTARTUNITS as ubyte = 3
 const GOODOFFSET as ubyte = 0
 const BADOFFSET as ubyte = MAXUNITS + MAXBASES
 
-const UNITEMPTY as ubyte = 0
 const UNITPLANEGOOD as ubyte = 1
 const UNITTANKGOOD as ubyte = 2
 const UNITINFANTRYGOOD as ubyte = 3
 const UNITPLANEBAD as ubyte = 4
 const UNITTANKBAD as ubyte = 5
 const UNITINFANTRYBAD as ubyte = 6
-const UNITBASE as ubyte = 7
-const UNITBASEGOOD as ubyte = 8
-const UNITBASEBAD as ubyte = 9
 
 const DISABLED as ubyte = 99
 
@@ -46,3 +44,16 @@ const UNITINFANTRYSTARTHP as ubyte = 60
 const UNITPLANESTARTAP as ubyte = 2
 const UNITTANKSTARTAP as ubyte = 1
 const UNITINFANTRYSTARTAP as ubyte = 2
+
+'base constants
+const BASENEUTRAL as ubyte = 1
+const BASEGOOD as ubyte = 2
+const BASEBAD as ubyte = 3
+
+const BASETYPENONE as ubyte = 0
+const BASETYPEPLANE as ubyte = 1
+const BASETYPETANK as ubyte = 2
+const BASETYPEINFANTRY as ubyte = 3
+
+const BASESTARTHP as ubyte = 50
+const BASESTARTAP as ubyte = 3
