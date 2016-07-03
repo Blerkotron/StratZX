@@ -15,6 +15,18 @@ function isTeamDead(offset as ubyte) as ubyte
 		end if
 	next n
 	
+	'if we have units then we don't need to do the next bit
+	if c = 0 then
+	
+		'count the number of bases we still have active
+		for n = 0 to MAXBASES - 1
+			if (offset = GOODOFFSET and baseAlignment(n) = BASEGOOD) or (offset = BADOFFSET and baseAlignment(n) = BASEBAD) then
+				c = c + 1
+			end if
+		next n
+		
+	end if
+	
 	'return FALSE if we still have units, TRUE otherwise
 	if c > 0 then 
 		return FALSE
