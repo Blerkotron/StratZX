@@ -6,7 +6,7 @@ dim unitMap(MAPHEIGHT, MAPWIDTH) as ubyte
 
 'declarations
 declare sub drawTile(y as ubyte, x as ubyte)
-declare sub drawUnit(y as ubyte, x as ubyte, selected as ubyte)
+declare sub drawUnit(unit as ubyte, selected as ubyte)
 
 'reset level
 sub resetGame()
@@ -124,34 +124,37 @@ end sub
 
 'draw all units
 sub drawAllUnits()
-	dim y, x as ubyte
-	
-	for y = 0 to MAPHEIGHT - 1
-		for x = 0 to MAPWIDTH - 1
-			drawUnit(y, x, FALSE)
-		next x
-	next y
+	dim n as ubyte
+	for n = 0 to MAXUNITSARRAY - 1
+		if isUnitAlive(n) = TRUE then 
+			drawUnit(n, FALSE)
+		end if
+	next n
 end sub
 
 'draw a single unit to the screen
-sub drawUnit(y as ubyte, x as ubyte, selected as ubyte)
-	if unitMap(y, x) = UNITPLANEGOOD then
-		print at y * 2, x * 2; paper 6; ink 1; bright 1; flash selected; "PL"; at (y * 2) + 1, x * 2; "AN"
-	elseif unitMap(y, x) = UNITTANKGOOD then
-		print at y * 2, x * 2; paper 6; ink 1; bright 1; flash selected;"TA"; at (y * 2) + 1, x * 2; "NK"
-	elseif unitMap(y, x) = UNITINFANTRYGOOD then
-		print at y * 2, x * 2; paper 6; ink 1; bright 1; flash selected;"IN"; at (y * 2) + 1, x * 2; "FA"
-	elseif unitMap(y, x) = UNITPLANEBAD then
-		print at y * 2, x * 2; paper 0; ink 2; bright 1; flash selected;"PL"; at (y * 2) + 1, x * 2; "AN"
-	elseif unitMap(y, x) = UNITTANKBAD then
-		print at y * 2, x * 2; paper 0; ink 2; bright 1; flash selected;"TA"; at (y * 2) + 1, x * 2; "NK"
-	elseif unitMap(y, x) = UNITINFANTRYBAD then
-		print at y * 2, x * 2; paper 0; ink 2; bright 1; flash selected;"IN"; at (y * 2) + 1, x * 2; "FA"
-	elseif unitMap(y, x) = UNITBASE then
-		print at y * 2, x * 2; paper 7; ink 0; bright 0; flash selected;"BA"; at (y * 2) + 1, x * 2; "SE"
-	elseif unitMap(y, x) = UNITBASEGOOD then
-		print at y * 2, x * 2; paper 6; ink 1; bright 1; flash selected;"BA"; at (y * 2) + 1, x * 2; "SE"
-	elseif unitMap(y, x) = UNITBASEGOOD then
-		print at y * 2, x * 2; paper 0; ink 2; bright 1; flash selected;"BA"; at (y * 2) + 1, x * 2; "SE"
+sub drawUnit(unit as ubyte, selected as ubyte)
+	dim y, x as ubyte
+	y = unitY(unit) * 2
+	x = unitX(unit) * 2
+	
+	if unitType(unit) = UNITPLANEGOOD then
+		print at y, x; paper 6; ink 1; bright 1; flash selected; "PL"; at y + 1, x; "AN"
+	elseif unitType(unit) = UNITTANKGOOD then
+		print at y, x; paper 6; ink 1; bright 1; flash selected;"TA"; at y + 1, x; "NK"
+	elseif unitType(unit) = UNITINFANTRYGOOD then
+		print at y, x; paper 6; ink 1; bright 1; flash selected;"IN"; at y + 1, x; "FA"
+	elseif unitType(unit) = UNITPLANEBAD then
+		print at y, x; paper 0; ink 2; bright 1; flash selected;"PL"; at y + 1, x; "AN"
+	elseif unitType(unit) = UNITTANKBAD then
+		print at y, x; paper 0; ink 2; bright 1; flash selected;"TA"; at y + 1, x; "NK"
+	elseif unitType(unit) = UNITINFANTRYBAD then
+		print at y, x; paper 0; ink 2; bright 1; flash selected;"IN"; at y + 1, x; "FA"
+	elseif unitType(unit) = UNITBASE then
+		print at y, x; paper 7; ink 0; bright 0; flash selected;"BA"; at y + 1, x; "SE"
+	elseif unitType(unit) = UNITBASEGOOD then
+		print at y, x; paper 6; ink 1; bright 1; flash selected;"BA"; at y + 1, x; "SE"
+	elseif unitType(unit) = UNITBASEGOOD then
+		print at y, x; paper 0; ink 2; bright 1; flash selected;"BA"; at y + 1, x; "SE"
 	end if
 end sub

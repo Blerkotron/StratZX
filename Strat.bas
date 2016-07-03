@@ -127,11 +127,11 @@ sub playerTurn(offset as ubyte)
 	while unit <> DISABLED
 	
 		'highlight the unit
-		drawUnit(unitY(unit), unitX(unit), TRUE)
+		drawUnit(unit, TRUE)
 		
 		'TODO
 		anyKey()
-		drawUnit(unitY(unit), unitX(unit), FALSE)
+		drawUnit(unit, FALSE)
 		
 		'get the next unit
 		unit = getNextUnit(offset, unit)

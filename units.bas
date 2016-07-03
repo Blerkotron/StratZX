@@ -7,6 +7,9 @@ dim unitType(MAXUNITSARRAY) as ubyte
 dim unitHP(MAXUNITSARRAY) as ubyte
 dim unitAP(MAXUNITSARRAY) as ubyte
 
+'declarations
+declare function isUnitAlive(unit as ubyte) as ubyte
+
 'disable a unit
 sub disableUnit(x as ubyte)
 	unitX(x) = DISABLED
@@ -46,7 +49,7 @@ function isTeamDead(offset as ubyte) as ubyte
 	
 	'loop through the team's 'space' in the arrays
 	for n = offset to (offset + MAXUNITS) - 1
-		if unitHP(n) > 0 and unitHP(n) <> DISABLED then
+		if isUnitAlive(n) = TRUE then
 			c = c + 1
 		end if
 	next n
@@ -80,7 +83,7 @@ function getFirstUnit(offset as ubyte) as ubyte
 	
 	'loop to find the first active unit
 	for n = offset to (offset + MAXUNITS) - 1
-		if unitHP(n) > 0 and unitHP(n) <> DISABLED then
+		if isUnitAlive(n) = TRUE then
 			return n
 		end if
 	next n
@@ -102,7 +105,7 @@ function getNextUnit(offset as ubyte, lastUnit as ubyte) as ubyte
 	
 	'loop to find the first active unit
 	for n = (lastUnit + 1) to (offset + MAXUNITS) - 1
-		if unitHP(n) > 0 and unitHP(n) <> DISABLED then
+		if isUnitAlive(n) = TRUE then
 			return n
 		end if
 	next n
@@ -110,4 +113,13 @@ function getNextUnit(offset as ubyte, lastUnit as ubyte) as ubyte
 	'no more units active
 	return DISABLED
 
+end function
+
+'check if a unit is 'alive' or not
+function isUnitAlive(unit as ubyte) as ubyte
+	if unitHP(unit) > 0 and unitHP(unit) <> DISABLED then
+		return TRUE
+	else
+		return FALSE
+	end if
 end function
