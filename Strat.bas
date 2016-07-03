@@ -11,6 +11,9 @@ start()
 #include "ai.bas"
 #include "battle.bas"
 
+'declarations
+declare sub playerTurn(offset as ubyte)
+
 'start
 sub start()
 	
@@ -24,7 +27,7 @@ sub start()
 		doMenu()
 		
 		'play game
-		playGame()
+		playGame(TRUE)
 		
 	loop
 	
@@ -59,7 +62,7 @@ sub doMenu()
 end sub
 
 'play game
-sub playGame()
+sub playGame(twoPlayer as ubyte)
 	dim winner as ubyte = DISABLED
 	
 	'clear the screen
@@ -78,14 +81,24 @@ sub playGame()
 	do
 	
 		'player turn
-		playerTurn()
+		playerTurn(GOODOFFSET)
 		
 		'check for a winner
 		winner = getWinner()
 		if winner = DISABLED then
 		
-			'computer turn
-			computerTurn()
+			'next turn depends on if we're one or two player
+			if twoPlayer = FALSE then
+			
+				'computer turn
+				computerTurn()
+			
+			else
+			
+				'player two turn
+				playerTurn(BADOFFSET)
+				
+			end if
 			
 			'check for a winner
 			winner = getWinner()
@@ -104,11 +117,11 @@ sub playGame()
 end sub
 
 'player turn
-sub playerTurn()
+sub playerTurn(offset as ubyte)
 	dim unit as ubyte
 	
 	'get the first unit
-	unit = getFirstUnit(GOODOFFSET)
+	unit = getFirstUnit(offset)
 
 	'main player turn loop
 	while unit <> DISABLED
@@ -121,7 +134,7 @@ sub playerTurn()
 		drawUnit(unitY(unit), unitX(unit), FALSE)
 		
 		'get the next unit
-		unit = getNextUnit(GOODOFFSET, unit)
+		unit = getNextUnit(offset, unit)
 		
 	end while
 	

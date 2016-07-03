@@ -51,11 +51,11 @@ function isTeamDead(offset as ubyte) as ubyte
 		end if
 	next n
 	
-	'return TRUE if we still have units, FALSE otherwise
+	'return FALSE if we still have units, TRUE otherwise
 	if c > 0 then 
-		return TRUE
-	else
 		return FALSE
+	else
+		return TRUE
 	end if
 	
 end function
