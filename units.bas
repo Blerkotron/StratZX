@@ -99,3 +99,19 @@ sub resetAP(unit as ubyte)
 	end if
 	
 end sub
+
+'check if we're allowed to move onto that flavour of tile
+function unitCanEnterTile(unit as ubyte, tileType as ubyte) as ubyte
+	dim canEnter as ubyte = TRUE
+	
+	'depends on unit type - planes can go anywhere, but...
+	if (unitType(unit) = UNITTANKGOOD or unitType(unit) = UNITTANKBAD) and (tileType = MAPWATER or tileType = MAPMOUNTAIN or tileType = MAPTREES) then
+		canEnter = FALSE
+	elseif (unitType(unit) = UNITINFANTRYGOOD or unitType(unit) = UNITINFANTRYBAD) and (tileType = MAPWATER) then
+		canEnter = FALSE
+	end if
+	
+	'done
+	return canEnter
+	
+end function

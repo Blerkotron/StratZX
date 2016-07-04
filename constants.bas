@@ -4,6 +4,12 @@
 const TRUE as ubyte = 1
 const FALSE as ubyte = 0
 
+'movement check constants
+const CANNOTMOVE as ubyte = 0
+const CANMOVE as ubyte = 1
+const BATTLE as ubyte = 2
+const TAKEOVER as ubyte = 3
+
 'level constants
 const MAPHEIGHT as ubyte = 12
 const MAPWIDTH as ubyte = 16

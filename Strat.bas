@@ -15,8 +15,8 @@ start()
 
 'declarations
 declare sub playerTurn(offset as ubyte)
-declare sub movePlayerUnit(unit as ubyte)
-declare sub moveUnit(unit as ubyte, dir as ubyte)
+declare sub movePlayerUnit(offset as ubyte, unit as ubyte)
+declare sub moveUnit(offset as ubyte, unit as ubyte, dir as ubyte)
 
 'start
 sub start()
@@ -128,7 +128,7 @@ sub playerTurn(offset as ubyte)
 	while unit <> DISABLED
 	
 		'move the unit
-		movePlayerUnit(unit)
+		movePlayerUnit(offset, unit)
 		
 		'get the next unit
 		unit = getNextUnit(offset, unit)
@@ -141,7 +141,7 @@ sub playerTurn(offset as ubyte)
 end sub
 
 'move one of the player's units
-sub movePlayerUnit(unit as ubyte)
+sub movePlayerUnit(offset as ubyte, unit as ubyte)
 	dim key as ubyte
 	dim done as ubyte = FALSE
 	
@@ -156,7 +156,7 @@ sub movePlayerUnit(unit as ubyte)
 		if key = IFIRE then
 			done = TRUE
 		elseif key <> INULL then
-			moveUnit(unit, key)
+			moveUnit(offset, unit, key)
 		end if
 
 	end while
@@ -170,8 +170,21 @@ sub movePlayerUnit(unit as ubyte)
 end sub
 
 'move a unit in a direction, if possible
-sub moveUnit(unit as ubyte, dir as ubyte)
+sub moveUnit(offset as ubyte, unit as ubyte, dir as ubyte)
+	dim moveStatus as ubyte
+	
+	'determine if this is a legal move and how to handle it
+	moveStatus = checkMove(offset, unit, dir)
+	
 	'TODO
+	if moveStatus = CANMOVE then
+		'TODO
+		beep .1, 20
+	else
+		'TODO
+		beep .1, 0
+	end if
+	
 end sub
 
 'computer turn
