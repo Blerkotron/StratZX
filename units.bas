@@ -85,3 +85,17 @@ function isUnitAlive(unit as ubyte) as ubyte
 		return FALSE
 	end if
 end function
+
+'resets a unit's AP back to its starting value
+sub resetAP(unit as ubyte)
+
+	'AP depends on unit type
+	if unitType(unit) = UNITPLANEGOOD or unitType(unit) = UNITPLANEBAD then
+		unitAP(unit) = UNITPLANESTARTAP
+	elseif unitType(unit) = UNITTANKGOOD or unitType(unit) = UNITTANKBAD then
+		unitAP(unit) = UNITTANKSTARTAP
+	else
+		unitAP(unit) = UNITINFANTRYSTARTAP
+	end if
+	
+end sub

@@ -15,6 +15,8 @@ start()
 
 'declarations
 declare sub playerTurn(offset as ubyte)
+declare sub movePlayerUnit(unit as ubyte)
+declare sub moveUnit(unit as ubyte, dir as ubyte)
 
 'start
 sub start()
@@ -125,18 +127,51 @@ sub playerTurn(offset as ubyte)
 	'main player turn loop
 	while unit <> DISABLED
 	
-		'highlight the unit
-		drawUnit(unit, TRUE)
-		
-		'TODO
-		anyKey()
-		drawUnit(unit, FALSE)
+		'move the unit
+		movePlayerUnit(unit)
 		
 		'get the next unit
 		unit = getNextUnit(offset, unit)
 		
 	end while
 	
+	'handle player's bases
+	'TODO
+	
+end sub
+
+'move one of the player's units
+sub movePlayerUnit(unit as ubyte)
+	dim key as ubyte
+	dim done as ubyte = FALSE
+	
+	'loop until out of AP or we quit
+	while done <> TRUE and unitAP(unit) > 0
+
+		'highlight the unit
+		drawUnit(unit, TRUE)
+		
+		'read controls
+		key = readSinglePlayerInput()
+		if key = IFIRE then
+			done = TRUE
+		elseif key <> INULL then
+			moveUnit(unit, key)
+		end if
+
+	end while
+		
+	'reset the unit for next turn
+	if isUnitAlive(unit) then
+		drawUnit(unit, FALSE)
+		resetAP(unit)
+	end if
+	
+end sub
+
+'move a unit in a direction, if possible
+sub moveUnit(unit as ubyte, dir as ubyte)
+	'TODO
 end sub
 
 'computer turn

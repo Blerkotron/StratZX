@@ -97,6 +97,47 @@ function readPlayerInput() as ubyte
 	
 end function
 
+'player input read routine
+function readSinglePlayerInput() as ubyte
+	dim i as ubyte = INULL
+	
+	'determine if we're reading keyboard/key joystick or kempston
+	if joy = 0 then
+	
+		'keyboard/key joystick read
+		if MultiKeys(fireKey) <> 0 then i = IFIRE
+		elseif MultiKeys(leftKey) <> 0 then i = ILEFT
+		elseif MultiKeys(rightKey) <> 0 then i = IRIGHT
+		elseif MultiKeys(upKey) <> 0 then i = IUP
+		elseif MultiKeys(downKey) <> 0 then i = IDOWN
+		end if
+		
+		'wait for key up
+		while inkey$ <> ""
+		end while
+		
+	else
+	
+		'kempston read
+		joyval = IN 31
+		if (16 and joyval) <> 0 then i = IFIRE
+		elseif (2 bAND joyval) <> 0 then i = ILEFT
+		elseif (1 bAND joyval) <> 0 then i = IRIGHT
+		elseif (8 bAND joyval) <> 0 then i = IUP
+		elseif (4 bAND joyval) <> 0 then i = IDOWN
+		end if
+		
+		'wait for joystick release
+		while IN 31 <> 0
+		end while
+		
+	end if
+	
+	'done
+	return i
+	
+end function
+
 'retrieves the four-bit value in the leftmost half of a byte
 function getLeftValue(value as ubyte) as ubyte
 	return value >> 4
