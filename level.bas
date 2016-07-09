@@ -194,3 +194,31 @@ sub drawBase(base as ubyte, selected as ubyte)
 		print at y, x; paper 0; ink 2; bright 1; flash selected;"BA"; at y + 1, x; "SE"
 	end if
 end sub
+
+'move a unit in a direction, redrawing the maps, etc.
+sub moveUnitDir(unit as ubyte, dir as ubyte, selected as ubyte)
+		
+		'undraw the sprite
+		drawTile(unitY(unit), unitX(unit))
+		
+		'update the sprite map
+		spriteMap(unitY(unit), unitX(unit)) = SPRITEEMPTY
+		
+		'calculate the new position
+		if dir = IUP then
+			unitY(unit) = unitY(unit) - 1
+		elseif dir = IDOWN then
+			unitY(unit) = unitY(unit) + 1
+		elseif dir = ILEFT then
+			unitX(unit) = unitX(unit) - 1
+		elseif dir = IRIGHT then
+			unitX(unit) = unitX(unit) + 1
+		end if
+		
+		'redraw the sprite
+		drawUnit(unit, selected)
+		
+		'update the sprite map
+		spriteMap(unitY(unit), unitX(unit)) = unitType(unit)
+		
+end sub

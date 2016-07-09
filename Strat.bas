@@ -6,6 +6,7 @@ start()
 'includes
 #include "constants.bas"
 #include "utilities.bas"
+#include "sound.bas"
 #include "base.bas"
 #include "units.bas"
 #include "level.bas"
@@ -176,13 +177,27 @@ sub moveUnit(offset as ubyte, unit as ubyte, dir as ubyte)
 	'determine if this is a legal move and how to handle it
 	moveStatus = checkMove(offset, unit, dir)
 	
-	'TODO
+	'action depends on the move status
 	if moveStatus = CANMOVE then
+		
+		'move the unit on the screen and update the level maps
+		moveUnitDir(unit, dir, TRUE)
+		
+		'and reduce the unit's AP
+		unitAP(unit) = unitAP(unit) - 1
+		
 		'TODO
-		beep .1, 20
+		playSound(SFXMOVEUNIT)
+		
+	elseif moveStatus = BATTLE then
+		'TODO
+		playSound(SFXBATTLE)
+	elseif moveStatus = TAKEOVER then
+		'TODO
+		playSound(SFXTAKEOVER)
 	else
 		'TODO
-		beep .1, 0
+		playSound(SFXCANNOTMOVE)
 	end if
 	
 end sub
